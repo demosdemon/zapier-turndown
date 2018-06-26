@@ -1,11 +1,11 @@
 {
-  "name": "zapier-platform-example-app-minimal",
+  "name": "zapier-turndown",
   "version": "1.0.0",
-  "description": "An example app for the Zapier platform.",
-  "repository": "zapier/zapier-platform-example-app-minimal",
-  "homepage": "https://zapier.com/",
-  "author": "Bryan Helmig <bryan@zapier.com>",
-  "license": "BSD-3-Clause",
+  "description": "Convert HTML to Markdown on Zapier",
+  "repository": "demosdemon/zapier-turndown",
+  "homepage": "https://github.com/demosdemon/zapier-turndown",
+  "author": "Brandon LeBlanc <brandon@leblanc.codes>",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive"
@@ -15,10 +15,15 @@
     "npm": ">=5.6.0"
   },
   "dependencies": {
+    "bluebird": "3.5.1",
+    "turndown": "4.0.2",
+    "turndown-plugin-gfm": "1.0.2",
     "zapier-platform-core": "7.0.0"
   },
   "devDependencies": {
+    "emailjs-mime-parser": "2.0.5",
     "mocha": "^5.2.0",
-    "should": "^13.2.0"
+    "should": "^13.2.0",
+    "text-encoding": "0.6.4"
   }
 }

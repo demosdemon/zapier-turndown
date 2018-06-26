@@ -1,0 +1,668 @@
+Delivered-To: brandon@leblanc.codes
+Received: by 2002:a17:90a:2:0:0:0:0 with SMTP id 2-v6csp3562080pja;
+        Sun, 24 Jun 2018 23:46:25 -0700 (PDT)
+X-Google-Smtp-Source: AAOMgpd41/HzQwVZMfj0HiFFfq+fpD/sQyfXFn6iMrMQeBHiwFn46B0tpChjaWgpVEIEV/ZNx/Y1
+X-Received: by 2002:a37:192:: with SMTP id u18-v6mr9735149qkg.254.1529909185738;
+        Sun, 24 Jun 2018 23:46:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1529909185; cv=none;
+        d=google.com; s=arc-20160816;
+        b=mFrpL6VRS4tLjzMnu+aZKL3V3K+qZ3bJflXWkxRody/ZmcY114fMNSOqQ5VZ4swIaW
+         M6mlHxrQMIoPaK50vgbJpFxfyhHjNj/zm6sZt/0/ib+OHZCi6eayDImsQdTUXeZkm5ut
+         mp8he5ygdH7DrSPaXfQFoobAfm0wtfgcFbrqgxePvbi270WAn/B/HO4QRKq4psttxL0N
+         VQUFnEPStvNZ7Ra91JXaV3QXZ5uuI6kYucXMIUYKFxUr4qV4Dim6YZ2TmmQLFZyl3FlN
+         XjH3oJOMLQyVMvQTnBMe+/SBz2buiu4VgpVHrD08bTfCeZABu+4c4ehao9NTMhNf9XZO
+         pmlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:message-id:to:mime-version:from:date:dkim-signature
+         :arc-authentication-results;
+        bh=6k4sVP4oma1/txO/2pzvN6V+6hJ5aSAo4hgBGiy8C/Q=;
+        b=BwIdb8VW9UIFCFLEhczJFk/OfsgsDIkK1uaq+WhJToSTLqIzGVzLus1gp9W0BxzNnL
+         aCYkZ5yAiyV9SxdZKXJFCLh6pUtLehu7IbRmNYd9jXQQ/Apu5JLilZCbXzA8TAszmc4t
+         OIIma3K2GOQDZeKMnZhnqudPI2K0xWxYr9CXz6GBaEbads8njfVOgLTrGxRaMLAFCXGp
+         WiI4505A544Bj4si9qDw2t9XC8Ps1P+T8kJs3bAGeK0ecc2FBfoY6YTl+Cc5/8kc5Eyx
+         7nPP4VClZKBtFHKGSWncfP0RtgLpwnISJQV22LohFjrCDEhvLWSzTCF8J49jB1gvl01A
+         VSrg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@stackoverflow.email header.s=s1 header.b=BDd44bCS;
+       spf=pass (google.com: domain of bounces+3553988-07b3-brandon=leblanc.codes@em.stackoverflow.email designates 167.89.81.234 as permitted sender) smtp.mailfrom="bounces+3553988-07b3-brandon=leblanc.codes@em.stackoverflow.email";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=stackoverflow.email
+Return-Path: <bounces+3553988-07b3-brandon=leblanc.codes@em.stackoverflow.email>
+Received: from o1.em.stackoverflow.email (o1.em.stackoverflow.email. [167.89.81.234])
+        by mx.google.com with ESMTPS id h17-v6si2874383qtp.323.2018.06.24.23.46.24
+        for <brandon@leblanc.codes>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 24 Jun 2018 23:46:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bounces+3553988-07b3-brandon=leblanc.codes@em.stackoverflow.email designates 167.89.81.234 as permitted sender) client-ip=167.89.81.234;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@stackoverflow.email header.s=s1 header.b=BDd44bCS;
+       spf=pass (google.com: domain of bounces+3553988-07b3-brandon=leblanc.codes@em.stackoverflow.email designates 167.89.81.234 as permitted sender) smtp.mailfrom="bounces+3553988-07b3-brandon=leblanc.codes@em.stackoverflow.email";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=stackoverflow.email
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; 
+	d=stackoverflow.email; 
+	h=content-type:from:mime-version:to:subject; s=s1; 
+	bh=ifXXWm1z3/exZjB8/41V4XI7vI4=; b=BDd44bCSAnDIBXorsyBV2vKmLdt6Y
+	dOPCK+mL4PFTpNkZ4Z2m0NhVQMO0jDwskFjws2930t4P9CH1/kgxaErJeyTWEaAI
+	qH2/RPHAh7jbhrQUpn9zror6V6BxnLPNumfJVManoodxPurG7JwFC1Gky6niVhF6
+	gPc4tjewZkKno0=
+Received: by filter0156p1iad2.sendgrid.net with SMTP id filter0156p1iad2-11353-5B308FC0-9
+        2018-06-25 06:46:24.36408042 +0000 UTC
+Received: from MzU1Mzk4OA (stackoverflow.com [198.252.206.71])
+	by ismtpd0002p1iad1.sendgrid.net (SG) with HTTP id BSy2qfT5QaemE7ncgILevw
+	Mon, 25 Jun 2018 06:46:24.263 +0000 (UTC)
+Content-Type: multipart/alternative; boundary=7f95ab0f1a1c1058d21460c340ff10867acff5112a4e47dc1b3df057e083
+Date: Mon, 25 Jun 2018 06:46:24 +0000 (UTC)
+From: "Stack Overflow" <do-not-reply@stackoverflow.email>
+Mime-Version: 1.0
+To: brandon@leblanc.codes
+Message-ID: <BSy2qfT5QaemE7ncgILevw@ismtpd0002p1iad1.sendgrid.net>
+Subject: New jobs on Stack Overflow
+X-SG-EID: mduZBVjNUmL8WbtMv8tcCahVSAOvwlU/9Ubpw4t3DCOjIaJ8QBYSweC/CccD6ry0aDajXFMCu/+kHe
+ I7brZ3U9WpVs+YnzQsM4iQiyyQZdzIaPiaUDxpIvSTiT6DX1YNz50Erk8Gg0xbj/b7n873rGXNR+we
+ BaID8zPhy+3knUGpvuToTWi/ySj23tZ0tWtFiYr+gt9hzzRixeoqCZ+mk2jQIrnC76+2Jeb2X6h7vZ
+ hEyEoxvepe5+ZZQQYtIlcC
+X-SG-ID: tWwKjAWlO12NM4ybPxEswT2EHYqNjSBkZpMm3rBfRIB6iegQrH3hRx1bg/oIgqw3fsKBAnv2xozKHR
+ 28qit9h8N5YDWT05dbOaLwxXxT50jy0d18OnWRc5lsyHwGbNLJYzAAS9JdyTEUNuz7g860oJ954Ihm
+ 0+6tlH3iOf7ujqaRT29TdRRPDi9Y/d6YJhASXZYS5/dHe0+2Pjzur+ec4jePJklMdM/U0R72kMZgIN
+ iuHWvqAvbkrq+AyynB75cUhlw99dadJNbxh5mfg5mCXA==
+
+--7f95ab0f1a1c1058d21460c340ff10867acff5112a4e47dc1b3df057e083
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+
+
+We found new jobs that match your interests!
+
+
+
+=3D=3D=3D=3D
+
+Remote jobs
+
+=3D=3D=3D=3D
+
+React - Fully remote Javascript developer - Help our million+ active users!
+Purepoint - No office location
+https://stackoverflow.com/jobs/195129/react-fully-remote-javascript-develop=
+er-help-purepoint?a=3D13ribuRj8z8Q
+$86,400 - $111,600=20
+Remote=20
+[ecmascript-6] [javascript] [reactjs] [react-native]
+
+
+
+
+
+
+    You&#39;re receiving this email because you created a job alert on Stac=
+k Overflow
+
+Unsubscribe from this email: https://stackoverflow.com/users/email/job-aler=
+ts/unsubscribe-all?id=3Db658f9e516e945f8ab60c50e9f768877&auth=3D9cnv5RsrH3p=
+I1wCqxxeRwXxzRaVLY_15wPRcWVKithBCWnaRGXGKnESG4Oa1gtIae2MVHpl5oHInJ74uDo3aaw=
+2Edit job alerts: https://stackoverflow.com/users/email/job-alerts?id=3Db65=
+8f9e516e945f8ab60c50e9f768877&auth=3D9cnv5RsrH3pI1wCqxxeRwXxzRaVLY_15wPRcWV=
+KithBCWnaRGXGKnESG4Oa1gtIae2MVHpl5oHInJ74uDo3aaw2Edit email settings: https=
+://email.stackoverflow.com/subscriptions/manage?id=3Db658f9e516e945f8ab60c5=
+0e9f768877&auth=3D9cnv5RsrH3pI1wCqxxeRwXxzRaVLY_15wPRcWVKithBCWnaRGXGKnESG4=
+Oa1gtIae2MVHpl5oHInJ74uDo3aaw2Leave feedback: https://meta.stackoverflow.co=
+m/
+Stack Overflow, 110 William Street, 28th floor, New York, NY 10038 &lt;3
+
+--7f95ab0f1a1c1058d21460c340ff10867acff5112a4e47dc1b3df057e083
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+Mime-Version: 1.0
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset=3D"utf-8" />
+	<meta name=3D"viewport" content=3D"width=3Ddevice-width" />
+	<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge" />
+	<meta name=3D"x-apple-disable-message-reformatting" />
+		<title>
+	We found new jobs that match your interests!
+</title>	<style>
+		html, body {
+			margin: 0 auto !important;
+			padding: 0 !important;
+			height: 100% !important;
+			width: 100% !important;
+=09=09=09
+=09=09=09
+		}
+		* {
+			-ms-text-size-adjust: 100%;
+			-webkit-text-size-adjust: 100%;
+=09=09=09
+		}
+		div[style*=3D"margin: 16px 0"] {
+			margin: 0 !important;
+=09=09=09
+		}
+		table,
+		td {
+			mso-table-lspace: 0pt !important;
+			mso-table-rspace: 0pt !important;
+=09=09=09
+		}
+		table {
+			border-spacing: 0 !important;
+			border-collapse: collapse !important;
+			table-layout: fixed !important;
+			margin: 0 auto !important;
+=09=09=09
+		}
+		table table table {
+			table-layout: auto;
+		}
+
+		img {
+			-ms-interpolation-mode: bicubic;
+=09=09=09
+		}
+		.mobile-link--footer a,
+		a[x-apple-data-detectors] {
+			color: inherit !important;
+			text-decoration: underline !important;
+=09=09=09
+		}
+		.button-link {
+			text-decoration: none !important;
+=09=09=09
+		}
+
+		.button-td-white,
+		.button-a-white,
+		.button-td-blue,
+		.button-a-blue,
+		.button-td-orange,
+		.button-a-orange {
+			transition: all 100ms ease-in;
+		}
+
+		.button-td-white:hover,
+		.button-a-white:hover,
+		.button-td-blue:hover,
+		.button-a-blue:hover {
+			background: #0077CC !important;
+			border-color: #0077CC !important;
+		}
+
+		.button-td-orange:hover,
+		.button-a-orange:hover {
+			background: #DA670B !important;
+			border-color: #DA670B !important;
+		}
+
+		.button-td-white:hover,
+		.button-a-white:hover {
+			color: #0077CC !important;
+			background: #E6F4FF !important;
+		}
+
+		.button-a-white:hover {
+			border-color: #E6F4FF !important;
+		}
+
+		.align-hero {
+			text-align: left;
+		}
+
+		@media screen and (max-width: 660px) {
+			.fluid {
+				width: 100% !important;
+				max-width: 100% !important;
+				height: auto !important;
+				margin-left: auto !important;
+				margin-right: auto !important;
+=09=09=09=09
+			}
+			.stack-column {
+				display: block !important;
+				text-align: left !important;
+				width: 100% !important;
+				max-width: 100% !important;
+=09=09=09=09
+			}
+		}
+	</style>
+</head>
+<body width=3D"100%" bgcolor=3D"#F7F8F8" style=3D"margin: 0; mso-line-heigh=
+t-rule: exactly;">
+	<center style=3D"width: 100%; background: #F7F8F8;">
+			<div style=3D"display:none;font-size:1px;line-height:1px;max-height:0px;=
+max-width:0px;opacity:0;overflow:hidden;mso-hide:all;font-family: arial, sa=
+ns-serif;">
+=09=09=09=09
+	We found new jobs that match your interests!
+
+			</div>
+		<div style=3D"max-width: 660px; margin: auto;">
+<!--[if mso]><table role=3D"presentation" cellspacing=3D"0" cellpadding=3D"=
+0" border=3D"0" width=3D"660" align=3D"center"><tr><td><![endif]-->
+			<!--Header-->
+			<table role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=
+=3D"0" width=3D"100%" style=3D"max-width: 660px;">
+				<tr>
+					<td style=3D"padding: 20px;">
+							<a href=3D"http://sg-links.stackoverflow.email/wf/click?upn=3DpDzA4v=
+SaPmKy14MynsLvnYWRZSfuHQ1lxRE0-2FGicu5ufc5Gmjbjf8ti-2FevjsyLfR_MAUHjioQ1IUo=
+Q71M06n7KY9LHr-2FkZgduQzrgb72aghfyaBi1jp0Qe2Fczl0QkvYlOqAMX58yKcEUroS2GXzzJ=
+-2FZewzNqYq5gaCA1CsGne6U2t1gCI-2F3-2BaMwQWmDMipdrRUk9Q8HSN7BePG-2BfPLXSU06T=
+RnPyv44vgPU-2FH-2BUOHZKmPY8GL818jdmTs0UAnrjz-2Bhl93QwHb3Ce8VydXyf9gQjJUaDDV=
+-2Fc-2BpM7nZLw9pGqJ3EPemW-2FZJmHXpibTPf9QBVD-2FUSESUOkDN9BUyWC52HP3S0HIPeqE=
+B1gbxvOLJ6ku-2F02BzhQ5kB-2FhCTnc7WLBz-2BIxh3zWi2W3QJe7qgrkqhixLtlQjCSDFN-2B=
+jCXSl0isHQVzpF7b-2F2dKe2KE-2BagyS9JjMlruOPL42hoz6GUJo40jLX0rfpvxwPS2uPt5GKr=
+qksQ5VqN-2BSCbm-2FMZkHKg2ell5AXG81r5MQ-2FOiFDKyjLChglebGnP548JoKYx52-2BfQ-3=
+D">
+								<img src=3D"https://sstatic.stackoverflow.email/careers/Img/emails/=
+logos/logo-so@2x.png?v=3Db1aa3274d0ba" width=3D"170" height=3D"34" alt=3D"S=
+tack Overflow" border=3D"0" align=3D"left" />
+							</a>
+											</td>
+				</tr>
+				<!--/Header-->
+				<!--Body-->
+<tr>
+	<td>
+		<table role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=
+=3D"0" align=3D"center" width=3D"100%">
+			<tr>
+				<td bgcolor=3D"#FFFFFF" align=3D"left" height=3D"100%" valign=3D"top" w=
+idth=3D"100%">
+					<!--[if mso]>
+					<table role=3D"presentation" border=3D"0" cellspacing=3D"0" cellpaddin=
+g=3D"0" align=3D"left" width=3D"660">
+					<tr>
+					<td align=3D"left" valign=3D"top" width=3D"660">
+					<![endif]-->
+					<table role=3D"presentation" border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" align=3D"left" style=3D"max-width:660px;">
+						<tr>
+							<td align=3D"left" valign=3D"middle" style=3D"padding: 15px 0; font-=
+size:0;">
+								<!--[if mso]>
+								<table role=3D"presentation" border=3D"0" cellspacing=3D"0" cellpad=
+ding=3D"0" align=3D"left">
+								<tr>
+								<td align=3D"left" valign=3D"middle" width=3D"80">
+								<![endif]-->
+								<div style=3D"display:inline-block; margin: 0 -2px; width:80px; ver=
+tical-align:middle;" class=3D"stack-column">
+									<table cellspacing=3D"0" cellpadding=3D"0" border=3D"0" align=3D"l=
+eft">
+										<tr>
+											<td style=3D"padding: 5px 0 5px 20px; text-align: left;">
+												<img src=3D"https://sstatic.stackoverflow.email/careers/Img/ema=
+ils/jobs/matches.png?v=3Ddc33ba078e63" width=3D"50" height=3D"56" />
+											</td>
+										</tr>
+									</table>
+								</div>
+								<!--[if mso]>
+								</td>
+								<td align=3D"left" valign=3D"middle" width=3D"580">
+								<![endif]-->
+								<div style=3D"display:inline-block; margin: 0 -2px; max-width:580px=
+; min-width:220px; vertical-align:middle;" class=3D"stack-column">
+									<table role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" b=
+order=3D"0" align=3D"left">
+										<tr>
+											<td style=3D"padding: 5px 0 5px 20px; font-family: Arial, sans-s=
+erif; font-size: 16px; color: #606d76;">
+												We found new jobs that match your interests!
+											</td>
+										</tr>
+									</table>
+								</div>
+								<!--[if mso]>
+								</td>
+								</tr>
+								</table>
+								<![endif]-->
+							</td>
+						</tr>
+					</table>
+					<!--[if mso]>
+					</td>
+					</tr>
+					</table>
+					<![endif]-->
+				</td>
+			</tr>
+		</table>
+	</td>
+</tr>
+	<tr>
+		<td bgcolor=3D"#ffffff" align=3D"left" valign=3D"top">
+			<table role=3D"presentation" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" align=3D"left" width=3D"100%">
+				<tr>
+					<td align=3D"center" valign=3D"top" style=3D"background-color: #eff0f1=
+; font-size:0; text-align: left; border-top: 1px solid #e9eaec;border-botto=
+m: 1px solid #e9eaec;">
+						<div style=3D"display:inline-block; margin: 0 -2px; vertical-align:to=
+p; width:100%; text-align: left;" class=3D"stack-column">
+							<table role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" bor=
+der=3D"0" width=3D"100%">
+								<tr>
+									<td style=3D"padding: 5px 20px;">
+										<table role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" =
+border=3D"0" width=3D"100%">
+											<tr>
+												<td style=3D"font-family: arial, sans-serif; font-size: 16px; f=
+ont-style: italic; font-size: 13px; mso-height-rule: exactly; line-height: =
+24px; color: #52575C; padding: 10px 0; text-align: left;">
+													Remote jobs&nbsp;<a href=3D"http://sg-links.stackoverflow.emai=
+l/wf/click?upn=3DpDzA4vSaPmKy14MynsLvnYWRZSfuHQ1lxRE0-2FGicu5uoVecz2ZyMf4Xe=
+ZQtKrt29j7wpW9NV2IO8ku3bEhq-2Fag-3D-3D_MAUHjioQ1IUoQ71M06n7KY9LHr-2FkZgduQz=
+rgb72aghfyaBi1jp0Qe2Fczl0QkvYlOqAMX58yKcEUroS2GXzzJ-2FZewzNqYq5gaCA1CsGne6U=
+2t1gCI-2F3-2BaMwQWmDMipdrRUk9Q8HSN7BePG-2BfPLXSU06TRnPyv44vgPU-2FH-2BUOHZKm=
+PY8GL818jdmTs0UAnrjz-2Bhl93QwHb3Ce8VydXyf9gQjJUaDDV-2Fc-2BpM7nZLw9pGqJ3EPem=
+W-2FZJmHXpibTPf9QBVD-2FUSESUOkDN9BUyWC52HP3S0HIPeqEB1gbxvOLJ6ku-2F02BzhQ5kB=
+-2FhCTnc7WLBr6i6nL-2BNWAwUk3CbqTeaC2TN-2FF1FXyT1tYQUGCmmRwEnGhp3qaVjz4mLRKV=
+yiHP8H83p2EawPHazz0-2FoKwkG8Ut0o2hiZwpkWUrmqpI-2FmR-2BeWdSgi8Y-2FoHIIjOywhv=
+Qq0BAgJqnHGrjEXsIyaohPJz3c-2BbuotsnCxwOEpn2twsg-3D" style=3D"color: #0077CC=
+; text-decoration: none;">See more jobs &#187;</a>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+		<tr>
+			<td align=3D"center" valign=3D"top" style=3D"padding: 5px 20px; backgrou=
+nd-color: white">
+<table role=3D"presentation" cellpadding=3D"0" cellspacing=3D"0" border=3D"=
+0" width=3D"100%">
+		<tr>
+			<td style=3D"padding: 15px 0;">
+<table role=3D"presentation" aria-hidden=3D"true" cellpadding=3D"0" cellspa=
+cing=3D"0" border=3D"0" width=3D"100%" style=3D"">
+	<tr>
+		<td>
+			<h2 style=3D"padding: 0; margin: 0; font-family: arial, sans-serif; font=
+-size: 15px; line-height: 21px; text-align: left;">
+				<a href=3D"http://sg-links.stackoverflow.email/wf/click?upn=3DpDzA4vSaP=
+mKy14MynsLvnYWRZSfuHQ1lxRE0-2FGicu5v3jRELjXa-2Bo51NdNJONC3A1rxuHKqsFYnUByPB=
+41nExuQq4YfW00ejYuWoUL1UfsUYRidag5aVCLhwIgkohhfT-2F81VemFiqSfIvlUKEuHKcpa1g=
+Z639-2FKdv0QmzpLjey4-3D_MAUHjioQ1IUoQ71M06n7KY9LHr-2FkZgduQzrgb72aghfyaBi1j=
+p0Qe2Fczl0QkvYlOqAMX58yKcEUroS2GXzzJ-2FZewzNqYq5gaCA1CsGne6U2t1gCI-2F3-2BaM=
+wQWmDMipdrRUk9Q8HSN7BePG-2BfPLXSU06TRnPyv44vgPU-2FH-2BUOHZKmPY8GL818jdmTs0U=
+Anrjz-2Bhl93QwHb3Ce8VydXyf9gQjJUaDDV-2Fc-2BpM7nZLw9pGqJ3EPemW-2FZJmHXpibTPf=
+9QBVD-2FUSESUOkDN9BUyWC52HP3S0HIPeqEB1gbxvOLJ6ku-2F02BzhQ5kB-2FhCTnc7WLBacx=
+JKoJZSYunavQVFr5kBnN4jV6neFTB6ZSq7KCW7z0mZMTIiNx0DbAicIbbVLgNgX-2BDeb-2FAu5=
+tvgjuwEkrkO4gXwFY7jdWp7hYQv8bnXDLBus0BkUC4WSyW9yZCdBtwnGH1CnucLjKCUb6gnfbPe=
+-2BVQ8vDJ07sbRoWV3zhbyCs-3D" style=3D"color: #0077CC; text-decoration: none=
+; font-weight: bold;">React - Fully remote Javascript developer - Help our =
+million+ active users!</a>
+			</h2>
+		</td>
+	</tr>
+	<tr>
+		<td style=3D"padding-top: 4px; font-family: arial, sans-serif; font-size:=
+ 15px; line-height: 21px; color: #54595F; text-align: left;">
+			Purepoint <span style=3D"color: #9199A1;"> - No office location</span>
+		</td>
+	</tr>
+	<tr>
+		<td style=3D"padding-top: 4px; font-family: arial, sans-serif; font-size:=
+ 15px; line-height: 21px; color: #54595F; text-align: left;">
+					<span style=3D"white-space: nowrap; color: #5FBA7D;">$86,400&nbsp;-&nb=
+sp;$111,600</span>
+				&nbsp;
+								<span style=3D"white-space: nowrap; color: #DFB82B;">Remote</span>&=
+nbsp;
+								</td>
+	</tr>
+	<tr>
+		<td align=3D"left" style=3D"padding-top: 8px; text-align: left;">
+			<table align=3D"left" role=3D"presentation" aria-hidden=3D"true" cellpad=
+ding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"margin: 0; float: left;">
+				<tr>
+					<td>
+						<table align=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" role=3D"presentation" style=3D"border-bottom:4px solid #ffffff; border-ri=
+ght:4px solid #ffffff">
+							<tbody>
+								<tr>
+									<td class=3D"post-tag-td post-tag-td-default" style=3D"background:=
+ #E1ECF4; text-align: center;">
+										<a class=3D"post-tag-a post-tag-a-default" href=3D"http://sg-link=
+s.stackoverflow.email/wf/click?upn=3DpDzA4vSaPmKy14MynsLvnYWRZSfuHQ1lxRE0-2=
+FGicu5tpzYY5I9dLP8hYivfpWBhH-2Bm2ooMo3OF-2FxBnSgtU6yoJ35S3v3m5LdFp25478N-2F=
+t8-3D_MAUHjioQ1IUoQ71M06n7KY9LHr-2FkZgduQzrgb72aghfyaBi1jp0Qe2Fczl0QkvYlOqA=
+MX58yKcEUroS2GXzzJ-2FZewzNqYq5gaCA1CsGne6U2t1gCI-2F3-2BaMwQWmDMipdrRUk9Q8HS=
+N7BePG-2BfPLXSU06TRnPyv44vgPU-2FH-2BUOHZKmPY8GL818jdmTs0UAnrjz-2Bhl93QwHb3C=
+e8VydXyf9gQjJUaDDV-2Fc-2BpM7nZLw9pGqJ3EPemW-2FZJmHXpibTPf9QBVD-2FUSESUOkDN9=
+BUyWC52HP3S0HIPeqEB1gbxvOLJ6ku-2F02BzhQ5kB-2FhCTnc7WLB-2FLyHKvGbSwkXd8GMQxi=
+ZtMrkp2HEjoiwHxd0dgaqr5RZL7J4y-2FpvxHUGGGL85D-2BkHV96l4WHgQfE7BIUkF8xSxHOXg=
+MhCbB-2B0SHLAhSt7e6CfsJTVlZSawi9FgeWfyquAP82hyIzjgp1bNDo3uEkqzGVVXs7AY-2BOf=
+B09XHae3vU-3D"
+										style=3D"background: #E1ECF4; border: 1px solid #E1ECF4; font-fam=
+ily: arial, sans-serif; font-size: 12px; line-height: 12px; text-align: cen=
+ter; text-decoration: none; padding: 5px 6px; display: block; white-space: =
+nowrap;"><span class=3D"button-link" style=3D"color:#39739d">ecmascript-6</=
+span> </a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table align=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" role=3D"presentation" style=3D"border-bottom:4px solid #ffffff; border-ri=
+ght:4px solid #ffffff">
+							<tbody>
+								<tr>
+									<td class=3D"post-tag-td post-tag-td-default" style=3D"background:=
+ #E1ECF4; text-align: center;">
+										<a class=3D"post-tag-a post-tag-a-default" href=3D"http://sg-link=
+s.stackoverflow.email/wf/click?upn=3DpDzA4vSaPmKy14MynsLvnYWRZSfuHQ1lxRE0-2=
+FGicu5tpzYY5I9dLP8hYivfpWBhH25MaBh2qbTRbQY58-2FRxgVfM8Ut8PAakqlO74Z2WWOcI-3=
+D_MAUHjioQ1IUoQ71M06n7KY9LHr-2FkZgduQzrgb72aghfyaBi1jp0Qe2Fczl0QkvYlOqAMX58=
+yKcEUroS2GXzzJ-2FZewzNqYq5gaCA1CsGne6U2t1gCI-2F3-2BaMwQWmDMipdrRUk9Q8HSN7Be=
+PG-2BfPLXSU06TRnPyv44vgPU-2FH-2BUOHZKmPY8GL818jdmTs0UAnrjz-2Bhl93QwHb3Ce8Vy=
+dXyf9gQjJUaDDV-2Fc-2BpM7nZLw9pGqJ3EPemW-2FZJmHXpibTPf9QBVD-2FUSESUOkDN9BUyW=
+C52HP3S0HIPeqEB1gbxvOLJ6ku-2F02BzhQ5kB-2FhCTnc7WLB0ceJez9EaV3WXpsyFxJYdqjBC=
+Po-2BVncfvSW7qq0z7noBAIFQAZ0b-2F-2BbRsnwQoGdCs7PsPwYiXj0FP4jDkb-2Fc5ammh4zW=
+khFib5DcR5yyCIusVUyaZSPb8GzUHMLoUZEXKUXDc0pFHAnky9X9aims6Wc-2FdqfIyg1GtocSs=
+7-2Bs3J4-3D"
+										style=3D"background: #E1ECF4; border: 1px solid #E1ECF4; font-fam=
+ily: arial, sans-serif; font-size: 12px; line-height: 12px; text-align: cen=
+ter; text-decoration: none; padding: 5px 6px; display: block; white-space: =
+nowrap;"><span class=3D"button-link" style=3D"color:#39739d">javascript</sp=
+an> </a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table align=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" role=3D"presentation" style=3D"border-bottom:4px solid #ffffff; border-ri=
+ght:4px solid #ffffff">
+							<tbody>
+								<tr>
+									<td class=3D"post-tag-td post-tag-td-default" style=3D"background:=
+ #E1ECF4; text-align: center;">
+										<a class=3D"post-tag-a post-tag-a-default" href=3D"http://sg-link=
+s.stackoverflow.email/wf/click?upn=3DpDzA4vSaPmKy14MynsLvnYWRZSfuHQ1lxRE0-2=
+FGicu5tpzYY5I9dLP8hYivfpWBhHl2f3OT7AjgtdwOWotOUgaYl0gCO9e6HU7YBkx4AZQ9s-3D_=
+MAUHjioQ1IUoQ71M06n7KY9LHr-2FkZgduQzrgb72aghfyaBi1jp0Qe2Fczl0QkvYlOqAMX58yK=
+cEUroS2GXzzJ-2FZewzNqYq5gaCA1CsGne6U2t1gCI-2F3-2BaMwQWmDMipdrRUk9Q8HSN7BePG=
+-2BfPLXSU06TRnPyv44vgPU-2FH-2BUOHZKmPY8GL818jdmTs0UAnrjz-2Bhl93QwHb3Ce8VydX=
+yf9gQjJUaDDV-2Fc-2BpM7nZLw9pGqJ3EPemW-2FZJmHXpibTPf9QBVD-2FUSESUOkDN9BUyWC5=
+2HP3S0HIPeqEB1gbxvOLJ6ku-2F02BzhQ5kB-2FhCTnc7WLBpnaJxzV82fVUhQ59sP-2F9ECEgB=
+iEMsWOD-2FN9y7lJOFBi3cXJ5WrOYxHv6-2FCgnCAWVNhlQsdX9XPqyzExHH6PZXMrsJSJ1SwlE=
+oMsgucaj6cX3Qt5Pd6GBLzoCl5drpDJlD3OamkTqEFS1zV-2FpHlE5nVvl-2BY1d-2FX8FGKrTe=
+4SDNKU-3D"
+										style=3D"background: #E1ECF4; border: 1px solid #E1ECF4; font-fam=
+ily: arial, sans-serif; font-size: 12px; line-height: 12px; text-align: cen=
+ter; text-decoration: none; padding: 5px 6px; display: block; white-space: =
+nowrap;"><span class=3D"button-link" style=3D"color:#39739d">reactjs</span>=
+ </a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table align=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" role=3D"presentation" style=3D"border-bottom:4px solid #ffffff; border-ri=
+ght:4px solid #ffffff">
+							<tbody>
+								<tr>
+									<td class=3D"post-tag-td post-tag-td-default" style=3D"background:=
+ #E1ECF4; text-align: center;">
+										<a class=3D"post-tag-a post-tag-a-default" href=3D"http://sg-link=
+s.stackoverflow.email/wf/click?upn=3DpDzA4vSaPmKy14MynsLvnYWRZSfuHQ1lxRE0-2=
+FGicu5tpzYY5I9dLP8hYivfpWBhHl2f3OT7AjgtdwOWotOUgaW9sJaBuD1telHkrnekjo4o-3D_=
+MAUHjioQ1IUoQ71M06n7KY9LHr-2FkZgduQzrgb72aghfyaBi1jp0Qe2Fczl0QkvYlOqAMX58yK=
+cEUroS2GXzzJ-2FZewzNqYq5gaCA1CsGne6U2t1gCI-2F3-2BaMwQWmDMipdrRUk9Q8HSN7BePG=
+-2BfPLXSU06TRnPyv44vgPU-2FH-2BUOHZKmPY8GL818jdmTs0UAnrjz-2Bhl93QwHb3Ce8VydX=
+yf9gQjJUaDDV-2Fc-2BpM7nZLw9pGqJ3EPemW-2FZJmHXpibTPf9QBVD-2FUSESUOkDN9BUyWC5=
+2HP3S0HIPeqEB1gbxvOLJ6ku-2F02BzhQ5kB-2FhCTnc7WLBOmfkbDBQi5pUtNzWwOPAHVGTs9-=
+2FhHC2N34kXn55vzCxXRt8SCvTKrSmtZsgMV06eeG8k4yHW7fnnoh5wNDXdfqEd9muFJ8SA-2BM=
+CdgytECQakEaQ1Tfql1Wm0Lg-2FoULjGqDfhbCBSBu5WXgnp4yHhjKN8z-2FBUqLFo-2FHpKFFh=
+0kH8-3D"
+										style=3D"background: #E1ECF4; border: 1px solid #E1ECF4; font-fam=
+ily: arial, sans-serif; font-size: 12px; line-height: 12px; text-align: cen=
+ter; text-decoration: none; padding: 5px 6px; display: block; white-space: =
+nowrap;"><span class=3D"button-link" style=3D"color:#39739d">react-native</=
+span> </a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+			</td>
+		</tr>
+</table>
+			</td>
+		</tr>
+<!--/Body-->
+				<!--Footer-->
+				<tr>
+					<td style=3D"padding: 20px 20px 0;width: 100%;font-size: 11px; font-fa=
+mily: arial, sans-serif; mso-height-rule: exactly; line-height:14px; color:=
+ #9EA3A9; text-align: left;">
+
+	You&#39;re receiving this email because you created a job alert on <strong=
+>Stack Overflow</strong>
+					</td>
+				</tr>
+				<tr>
+					<td style=3D"padding: 5px 20px 0;width: 100%;font-size: 11px; font-fam=
+ily: arial, sans-serif; mso-height-rule: exactly; line-height:14px; color: =
+#9EA3A9; text-align: left;">
+
+		<a href=3D"http://sg-links.stackoverflow.email/wf/click?upn=3DpDzA4vSaPmK=
+y14MynsLvnYWRZSfuHQ1lxRE0-2FGicu5usa4faadYfjZ-2FFUQoJGXatKo4n44ZmZhrX7KwkcB=
+kX4DMfJBa1AnSuIGwFK5NBxpLbIm7eiLHLjZwauJPkmDr8tja7OS4L556LY7wDgIYJlOv61x9yg=
+C5tNLrTiuXxutJzRXCgEuurX7t0m2L1xJP789k1wst9cnUhLsJM4-2F5nsFOizPE-2FAELQqKft=
+2sn1cD992N1W1BBeRg51jHIOs1JUNK-2FzjFGewQNGqowHyq2OsQ-3D-3D_MAUHjioQ1IUoQ71M=
+06n7KY9LHr-2FkZgduQzrgb72aghfyaBi1jp0Qe2Fczl0QkvYlOqAMX58yKcEUroS2GXzzJ-2FZ=
+ewzNqYq5gaCA1CsGne6U2t1gCI-2F3-2BaMwQWmDMipdrRUk9Q8HSN7BePG-2BfPLXSU06TRnPy=
+v44vgPU-2FH-2BUOHZKmPY8GL818jdmTs0UAnrjz-2Bhl93QwHb3Ce8VydXyf9gQjJUaDDV-2Fc=
+-2BpM7nZLw9pGqJ3EPemW-2FZJmHXpibTPf9QBVD-2FUSESUOkDN9BUyWC52HP3S0HIPeqEB1gb=
+xvOLJ6ku-2F02BzhQ5kB-2FhCTnc7WLBAnxefT9JEILRdWMAhF0f-2Bro12yJw0rF6UxpwGIDDn=
+RTn4pZw48pOY8dImCOd2JWEsqq3225-2BDYizfB-2BlRoIjkQuvIalGi5JMH08SbEWs7AGHA-2F=
+fROzHKZ0U80EltkFaJmNvfzG5ls3qNvZE5QdINcpU97Xg-2FT-2BFN8RdgzHi1cBk-3D" style=
+=3D"color: #999; text-decoration: underline;">Unsubscribe from this email</=
+a>
+
+		&nbsp;&nbsp;&nbsp;<a href=3D"http://sg-links.stackoverflow.email/wf/click=
+?upn=3DpDzA4vSaPmKy14MynsLvnYWRZSfuHQ1lxRE0-2FGicu5usa4faadYfjZ-2FFUQoJGXat=
+kyB-2FI7A1pKR3o0j6C94fDDsvmLE8dsidorblGYv9ywocc5or9T-2BJZTRZk4T-2FtpTMqspBB=
+VvT-2Fyx814M4qvRxXjUu10of33wXgx1tuSlW5Sw2OMrAJU4FepQByHc0w6LjHoEWqRSR571kXA=
+mUW2KCmEyRIUzeGVOx99MMEBSVH-2Bho7-2B-2FtIG3V9ser8WkXzD9Q_MAUHjioQ1IUoQ71M06=
+n7KY9LHr-2FkZgduQzrgb72aghfyaBi1jp0Qe2Fczl0QkvYlOqAMX58yKcEUroS2GXzzJ-2FZew=
+zNqYq5gaCA1CsGne6U2t1gCI-2F3-2BaMwQWmDMipdrRUk9Q8HSN7BePG-2BfPLXSU06TRnPyv4=
+4vgPU-2FH-2BUOHZKmPY8GL818jdmTs0UAnrjz-2Bhl93QwHb3Ce8VydXyf9gQjJUaDDV-2Fc-2=
+BpM7nZLw9pGqJ3EPemW-2FZJmHXpibTPf9QBVD-2FUSESUOkDN9BUyWC52HP3S0HIPeqEB1gbxv=
+OLJ6ku-2F02BzhQ5kB-2FhCTnc7WLBK63-2BJrfK9DZ0XF9-2BJSykFArQQthEhyaYWOzJJAjiR=
+apIUOpVjdLkbGeX45fAkLRfNmTRq0nbFUdMe4KbeUYwvx9jwlsl-2BURWiMWRDZ1jYBpqkHejc-=
+2FUi-2BA8BFTo6HZl66Uuom-2FIqCota1BxMliTONS0Jfv1erxN2cUxtF-2BWUj0M-3D" style=
+=3D"color:#9EA3A9; text-decoration:underline;">Edit job alerts</a>&nbsp;&nb=
+sp;&nbsp;<a href=3D"http://sg-links.stackoverflow.email/wf/click?upn=3DpDzA=
+4vSaPmKy14MynsLvnUmnYekVJk2V74YWZjdHuXecB6uFlP5736xZdLYqAvgwMd9RZhedzcrW-2B=
+U64bIIOQwUyprBKJiyGfpX-2BNKYUecgTok5pNQc-2BeC94vMGuburjlAMao2nBwUkbjFpMgY7f=
+2OCSSwbdzfS0S-2BgriusCyVcwX01zOTibHK21orE388-2F0ZOFOuEW9THim0O8GZaVmXVyPcxl=
+xqf8Y1av6zT1P8-2Fvx7-2FeT-2BAI-2BEY47eeB36opO_MAUHjioQ1IUoQ71M06n7KY9LHr-2F=
+kZgduQzrgb72aghfyaBi1jp0Qe2Fczl0QkvYlOqAMX58yKcEUroS2GXzzJ-2FZewzNqYq5gaCA1=
+CsGne6U2t1gCI-2F3-2BaMwQWmDMipdrRUk9Q8HSN7BePG-2BfPLXSU06TRnPyv44vgPU-2FH-2=
+BUOHZKmPY8GL818jdmTs0UAnrjz-2Bhl93QwHb3Ce8VydXyf9gQjJUaDDV-2Fc-2BpM7nZLw9pG=
+qJ3EPemW-2FZJmHXpibTPf9QBVD-2FUSESUOkDN9BUyWC52HP3S0HIPeqEB1gbxvOLJ6ku-2F02=
+BzhQ5kB-2FhCTnc7WLB43un8xVLGUFZWzl8aDaqP2hUJHQAtDNil9UqKhKxWuP9YFTcu1gQiDwR=
+wD3n1cqkw3283VLxI9HaNEyhqzUH18l1wzCFXRrbnMvevX-2FtHEI5s4XSC0BkYPqYmjS-2BvRv=
+JOxlnt3UrYwG4olEqDn2X5p-2B-2BOJW0rxIOcQCov9tyUJI-3D" style=3D"color:#9EA3A9=
+; text-decoration:underline;">Edit email settings</a>
+	&nbsp;&nbsp;&nbsp;<a href=3D"http://sg-links.stackoverflow.email/wf/click?=
+upn=3DpDzA4vSaPmKy14MynsLvnYNGCtlpchVTIXCRq-2FDMnjyMKbZwSJYFFlMDicNkWwVl_MA=
+UHjioQ1IUoQ71M06n7KY9LHr-2FkZgduQzrgb72aghfyaBi1jp0Qe2Fczl0QkvYlOqAMX58yKcE=
+UroS2GXzzJ-2FZewzNqYq5gaCA1CsGne6U2t1gCI-2F3-2BaMwQWmDMipdrRUk9Q8HSN7BePG-2=
+BfPLXSU06TRnPyv44vgPU-2FH-2BUOHZKmPY8GL818jdmTs0UAnrjz-2Bhl93QwHb3Ce8VydXyf=
+9gQjJUaDDV-2Fc-2BpM7nZLw9pGqJ3EPemW-2FZJmHXpibTPf9QBVD-2FUSESUOkDN9BUyWC52H=
+P3S0HIPeqEB1gbxvOLJ6ku-2F02BzhQ5kB-2FhCTnc7WLBiJawwcI5l1h0ZAJayyU23lihxztE1=
+kUgGaAWw9bv7QLKa6DgwDAA5voDkbd6jLoX0i4ORwp2YG7q4Lq-2BOCTxYrQD6M1yvDEjWtRVHH=
+vDzD-2BNUatwA47A3nvhBMA6QhBD-2FTZQ4OvOzIldvIDiCl2GnhXAfavqGwQ-2FMY5UO4OlSH3=
+2CyJLkHVtj7h6u5YOAN30" style=3D"color: #999; text-decoration: underline;">L=
+eave feedback</a>
+					</td>
+				</tr>
+				<tr>
+					<td style=3D"padding: 20px; width: 100%;font-size: 11px; font-family: =
+arial, sans-serif; color: #9EA3A9; text-align: left;">
+						<img src=3D"https://sstatic.stackoverflow.email/careers/Img/emails/lo=
+gos/logo-so-gray@2x.png?v=3D43e3e57a3d3e" width=3D"122" height=3D"24" borde=
+r=3D"0" alt=3D"Stack Overflow" />
+						<p>
+							<strong>Stack Overflow</strong>, 110 William Street, 28th floor, New=
+ York, NY 10038
+						</p>
+						<table align=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" role=3D"presentation" style=3D"border-radius: 1px; background: #ffffff; l=
+ine-height: 0px;">
+							<tr>
+								<td>
+									<div style=3D"border-radius: 1px; border: 1px solid #D6D9DC; paddi=
+ng: 3px 6px; line-height: 11px; font-family: Consolas, monospace; font-size=
+: 11px; color: #E06C77;" title=3D"because we care">&lt;3</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			<!--/Footer-->
+<!--[if mso]></td></tr></table><![endif]-->
+		</div>
+	</center>
+
+<img src=3D"http://sg-links.stackoverflow.email/wf/open?upn=3DMAUHjioQ1IUoQ=
+71M06n7KY9LHr-2FkZgduQzrgb72aghfyaBi1jp0Qe2Fczl0QkvYlOqAMX58yKcEUroS2GXzzJ-=
+2FZewzNqYq5gaCA1CsGne6U2t1gCI-2F3-2BaMwQWmDMipdrRUk9Q8HSN7BePG-2BfPLXSU06TR=
+nPyv44vgPU-2FH-2BUOHZKmPY8GL818jdmTs0UAnrjz-2Bhl93QwHb3Ce8VydXyf9gQjJUaDDV-=
+2Fc-2BpM7nZLw9pGqJ3EPemW-2FZJmHXpibTPf9QBVD-2FUSESUOkDN9BUyWC52HP3S0HIPeqEB=
+1gbxvOLJ6ku-2F02BzhQ5kB-2FhCTnc7WLBFulcsDpWX0DPvRdPJKeE84ovmbJeEad1Sxcn8NvF=
+C-2F6aEggPwV5vwvDYwZKUFTcgGe7Gz7ds-2BBQvyAfv9FHFP97tSkHUkwLrPhRXLCBNQvBWDwC=
+CZNJkDZhKrinq6iUWSvkP5AogFNDp9dfgcUo7jFN707Hyz8My0dYZEnkt6797ChKZHBXWv23ccl=
+woAjKD" alt=3D"" width=3D"1" height=3D"1" border=3D"0" style=3D"height:1px =
+!important;width:1px !important;border-width:0 !important;margin-top:0 !imp=
+ortant;margin-bottom:0 !important;margin-right:0 !important;margin-left:0 !=
+important;padding-top:0 !important;padding-bottom:0 !important;padding-righ=
+t:0 !important;padding-left:0 !important;"/>
+</body>
+</html>
+
+
+--7f95ab0f1a1c1058d21460c340ff10867acff5112a4e47dc1b3df057e083--
