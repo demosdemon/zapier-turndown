@@ -1,0 +1,36 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "declaration": true,
+    "esModuleInterop": true,
+    "inlineSources": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "lib",
+    "paths": {
+      "*": [
+        "node_modules/*",
+        "types/*"
+      ]
+    },
+    "sourceMap": true,
+    "strict": true,
+    "target": "es6",
+    "typeRoots": [
+      "types",
+      "node_modules/@types"
+    ]
+  },
+  "include": [
+    "src/**/*",
+    "config/**/*"
+  ]
+}

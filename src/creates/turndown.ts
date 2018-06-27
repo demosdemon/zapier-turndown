@@ -1,14 +1,10 @@
-const has = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
+import TurndownService from 'turndown';
+import {RulesMap, TurndownOptions} from 'turndown';
+import {highlightedCodeBlock, strikethrough, taskListItems} from 'turndown-plugin-gfm';
+import {Bundle, zObject} from 'zapier-platform-core';
+import {has} from '../utils';
 
-const TurndownService = require('turndown');
-
-const {
-  strikethrough,
-  taskListItems,
-  highlightedCodeBlock
-} = require('turndown-plugin-gfm');
-
-const rules = {
+const rules: RulesMap = {
   ignoreHeadElements: {
     filter: ['meta', 'title', 'style', 'script'],
     replacement() {
@@ -17,46 +13,52 @@ const rules = {
   },
 };
 
-const newTurndownService = options => {
-  const svc = new TurndownService(options);
+const newTurndownService = (options: Partial<TurndownOptions>) => Object.keys(rules)
+    .reduce(
+      (svc, key) => svc.addRule(key, rules[key]),
+      new TurndownService(options).use([
+        strikethrough,
+        taskListItems,
+        highlightedCodeBlock,
+      ])
+    );
 
-  svc.use([strikethrough, taskListItems, highlightedCodeBlock]);
-
-  Object.keys(rules).forEach(key => svc.addRule(key, rules[key]));
-
-  return svc;
-};
-
-const optionKeys = [
-  'headingStyle', 'hr', 'bulletListMarker', 'fence', 'emDelimiter',
-  'strongDelimiter', 'linkStyle', 'linkReferenceStyle',
+const optionKeys: (keyof TurndownOptions)[] = [
+  'headingStyle',
+  'hr',
+  'bulletListMarker',
+  'fence',
+  'emDelimiter',
+  'strongDelimiter',
+  'linkStyle',
+  'linkReferenceStyle',
 ];
 
-const createTurndown = (_z, bundle) => {
-  const opts = {};
+const createTurndown = (_z: zObject, bundle: Bundle) => {
+  const opts: Partial<TurndownOptions> = {};
 
-  optionKeys
-    .filter(key => has(bundle.inputData, key))
-    .forEach(key => opts[key] = bundle.inputData[key]);
+  optionKeys.filter(key => has(bundle.inputData, key))
+    .forEach(key => (opts[key] = bundle.inputData[key]));
 
   const svc = newTurndownService(opts);
 
   return {
-    markdown: svc.turndown(bundle.inputData.inputText)
+    markdown: svc.turndown(bundle.inputData.inputText),
   };
 };
 
-module.exports = {
+export default {
   key: 'turndown',
   noun: 'Turndown',
 
   display: {
     label: 'Convert HTML to Markdown',
-    description: 'Converts an HTML string to a Markdown string.'
+    description: 'Converts an HTML string to a Markdown string.',
   },
 
   operation: {
-    inputFields: [{
+    inputFields: [
+      {
         key: 'inputText',
         label: 'Input Text',
         required: true,
@@ -114,7 +116,7 @@ module.exports = {
         label: 'Link Reference Style',
         choices: ['full', 'collapsed', 'shortcut'],
         default: 'full',
-      }
+      },
     ],
     perform: createTurndown,
 
@@ -123,7 +125,10 @@ module.exports = {
     },
 
     outputFields: [
-      { key: 'markdown', type: 'string' },
-    ]
-  }
+      {
+        key: 'markdown',
+        type: 'string',
+      },
+    ],
+  },
 };
